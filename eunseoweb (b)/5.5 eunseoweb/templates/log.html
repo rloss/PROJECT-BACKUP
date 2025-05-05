@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}📚 학습 로그{% endblock %}
+
+{% block content %}
+  <h1>📚 은서의 학습 로그</h1>
+
+  <!-- 📝 글쓰기 폼 -->
+  <form method="POST" action="/log" style="margin-bottom: 30px;">
+    <input type="text" name="title" placeholder="제목을 입력하세요" required style="display:block; margin-bottom:10px; width: 100%;">
+    <textarea name="content" placeholder="내용을 입력하세요" rows="5" required style="display:block; margin-bottom:10px; width: 100%;"></textarea>
+    <button type="submit">저장하기</button>
+  </form>
+
+  <!-- 📚 저장된 로그 목록 -->
+  {% for log in logs %}
+    <article class="log-entry" style="margin-bottom: 40px;">
+      <h2>{{ log.date }} — {{ log.title }}</h2>
+      <p>{{ log.content | safe }}</p>
+    </article>
+  {% endfor %}
+{% endblock %}

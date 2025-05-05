@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}글 목록 - Insight Flow{% endblock %}
+
+{% block content %}
+  <div class="post-header">
+    <h2>📚 
+        {% if current_category %}
+          "{{ current_category }}" 카테고리의 글
+        {% else %}
+          전체 글 목록
+        {% endif %}
+    </h2>
+    <a href="/post/write" class="write-button">+ 글쓰기</a>
+  </div>
+
+  <div class="post-grid">
+    {% for post in posts %}
+      <a href="/post/{{ post.id }}" class="card">
+        <h3>{{ post.title }}</h3>
+
+        <!-- ✅ HTML 태그 제거 후 미리보기 표시 -->
+        <p style="font-size: 0.9rem; color: #475569;">
+          {{ post.content | striptags | truncate(80, True, '...') }}
+        </p>
+
+        <p style="font-size: 0.85rem;">✍️ {{ post.author }} | 🕒 {{ post.created_at[:10] }}</p>
+        <p style="font-size: 0.85rem;">🏷️ {{ post.tags }}</p>
+      </a>
+    {% endfor %}
+  </div>
+{% endblock %}
+

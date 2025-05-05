@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}Insight Flow{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+</head>
+<body>
+  <button id="toggle-btn" class="toggle-btn">☰</button> <!-- 사이드바 토글 버튼 -->
+
+  <div class="layout">
+    <!-- 사이드바 -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-title">Insight Flow</div>
+      <ul>
+        <li><a href="/">🏠 홈</a></li>
+        <li><a href="/post">🗂 글 목록</a></li>
+        <li><a href="/filter/category/기술">-기술</a></li>
+        <li><a href="/filter/category/경제">-경제</a></li>
+        <li><a href="/filter/category/트렌드">-트렌드</a></li>
+        <li><a href="/filter/category/사회">-사회</a></li>
+        <li><a href="/filter/category/기타">-기타</a></li>
+        <li><a href="/community">💬 커뮤니티</a></li>
+      </ul>
+    </nav>
+
+    <!-- 콘텐츠 영역 -->
+    <main class="main-content">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  <!-- 토글 스크립트 연결 -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}{{ mode == "edit" and "글 수정하기" or "글쓰기" }} - Insight Flow{% endblock %}
+
+{% block content %}
+  <h2>{{ mode == "edit" and "✏ 글 수정하기" or "📝 인사이트 작성하기" }}</h2>
+
+  <!-- Quill CSS CDN -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+  <form method="POST" style="display: flex; flex-direction: column; gap: 1rem; max-width: 700px;">
+    <input type="text" name="title" placeholder="제목" value="{{ post.title if post else '' }}" required />
+
+    <!-- 에디터 영역 -->
+    <div id="editor" style="height: 300px; background: #fff;">
+      {{ post.content|safe if post else '' }}
+    </div>
+    <input type="hidden" name="content" id="hidden-content" />
+
+    <input type="text" name="author" placeholder="작성자" value="{{ post.author if post else '' }}" />
+
+    <div>
+      <label>카테고리 (복수 선택)</label><br />
+      {% for cat in categories %}
+        <label>
+          <input type="checkbox" name="categories" value="{{ cat }}"
+                 {% if post and cat in post.categories %}checked{% endif %}>
+          {{ cat }}
+        </label>
+      {% endfor %}
+    </div>
+
+    <input type="text" name="tags" placeholder="태그 (쉼표 구분)" value="{{ post.tags if post else '' }}" />
+
+    <button type="submit">{{ mode == "edit" and "수정 완료" or "작성 완료" }}</button>
+  </form>
+
+  <!-- Quill JS CDN -->
+  <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+  <script>
+    const quill = new Quill('#editor', {
+      theme: 'snow',
+      placeholder: '내용을 작성해 주세요...',
+      modules: {
+        toolbar: [
+          [{ header: [1, 2, 3, false] }],
+          ['bold', 'italic', 'underline'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          ['link', 'blockquote', 'code-block'],
+          ['clean']
+        ]
+      }
+    });
+
+    // 기존 content 불러오기 (수정 시 필요)
+    const hiddenContent = document.getElementById("hidden-content");
+
+    // form submit 시 content 값 세팅
+    document.querySelector("form").addEventListener("submit", function () {
+      hiddenContent.value = quill.root.innerHTML;
+    });
+  </script>
+{% endblock %}
+

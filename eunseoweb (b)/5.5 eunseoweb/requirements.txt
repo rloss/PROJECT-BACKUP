@@ -1,0 +1,4 @@
+flask
+Flask==2.2.5
+
+Flask==2.2.5

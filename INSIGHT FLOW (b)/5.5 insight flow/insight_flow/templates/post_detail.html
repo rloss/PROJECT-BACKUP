@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} - Insight Flow{% endblock %}
+
+{% block content %}
+<article class="post-detail">
+
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>{{ post.title }}</h2>
+    <div style="display: flex; gap: 0.5rem;">
+      <a href="/post/edit/{{ post.id }}" class="write-button">✏ 수정</a>
+      <form method="POST" action="/post/delete/{{ post.id }}" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+        <button class="write-button" style="background-color: #ff7d7d;">🗑 삭제</button>
+      </form>
+    </div>
+  </div>
+
+  <p class="meta">
+    ✍️ {{ post.author }} | 🕒 {{ post.created_at[:10] }}<br />
+    📂 카테고리:
+    {% for cat in post.categories.split(",") %}
+      <a href="/filter/category/{{ cat.strip() }}" style="color: #426e81;">{{ cat.strip() }}</a>{% if not loop.last %}, {% endif %}
+    {% endfor %}<br />
+    🏷️ 태그: {{ post.tags }}
+  </p>
+
+  <!-- ✅ 본문 출력 -->
+  <div class="content-box">{{ post.content|safe }}</div>
+
+</article>
+{% endblock %}
